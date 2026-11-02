@@ -1,0 +1,2665 @@
+<!DOCTYPE html>  <html lang="id">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>Latihan Bahasa Jepang</title>  
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>  <style>  
+*{box-sizing:border-box}  
+body{margin:0;padding:20px;background:#f3f6fa;color:#263238;font-family:Arial,sans-serif}  
+.container{max-width:900px;margin:auto;background:white;padding:25px;border-radius:14px;box-shadow:0 4px 18px #00000014}  
+h1{text-align:center;color:#1769aa;margin-top:0}  
+.info{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:20px}  
+.timer{background:#e8f2ff;color:#135da0;padding:10px 16px;border-radius:8px;font-weight:bold}  
+.timer.warning {  
+    background: #ffcccc;  
+    color: #c62828;  
+    border: 2px solid #e53935;  
+    animation: timerBlink 1s infinite;  
+}  
+  
+@keyframes timerBlink {  
+    0%, 100% {  
+        opacity: 1;  
+        background: #ffcccc;  
+    }  
+    50% {  
+        opacity: 0.35;  
+        background: #ff5252;  
+        color: #ffffff;  
+    }  
+}  
+  .progress-container{width:100%;height:9px;background:#e4e9ef;border-radius:10px;overflow:hidden;margin-bottom:20px}  
+.progress-bar{height:100%;width:0;background:#2196f3;transition:width .2s}  
+.question-number{font-size:14px;color:#607d8b;margin-bottom:10px}  
+.question{font-size:23px;font-weight:bold;line-height:1.8;margin-bottom:20px;overflow-wrap:anywhere}  
+.underlined-word{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}  
+.media-image{display:block;max-width:100%;max-height:350px;object-fit:contain;margin:12px auto;border-radius:8px}  
+.option-image{display:block;max-width:100%;max-height:180px;object-fit:contain;margin-top:10px}  
+.media-audio{display:block;width:100%;max-width:350px;margin:12px auto}  
+.options{display:grid;grid-template-columns:1fr;gap:12px}  
+.option{display:flex;align-items:flex-start;gap:12px;border:2px solid #dce3eb;border-radius:10px;padding:14px;cursor:pointer;background:white;overflow-wrap:anywhere}  
+.option:hover{border-color:#2196f3;background:#f5faff}  
+.option.selected{border-color:#1976d2;background:#eaf4ff}  
+.option-letter{flex:0 0 32px;width:32px;height:32px;border-radius:50%;background:#e8edf3;display:flex;align-items:center;justify-content:center;font-weight:bold}  
+.option.selected .option-letter{background:#1976d2;color:white}  
+.option-content{flex:1;min-width:0;line-height:1.7}  
+.navigation{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:25px}  
+button{border:0;border-radius:8px;padding:12px 18px;font-size:15px;font-weight:bold;cursor:pointer}  
+button:disabled{opacity:.4;cursor:not-allowed}  
+.btn-secondary{background:#e5eaf0;color:#263238}  
+.btn-primary{background:#1976d2;color:white}  
+.btn-submit{background:#2e7d32;color:white}  
+.btn-reset{background:#ef5350;color:white}  
+.question-navigation{margin-top:25px;border-top:1px solid #ddd;padding-top:15px}  
+.question-navigation>summary{cursor:pointer;font-size:17px;font-weight:bold;padding:10px 0;display:flex;justify-content:space-between;gap:10px}  
+#navigationStatus{color:#607d8b;font-size:13px;font-weight:normal}  
+.category-navigation{margin-top:12px;border:1px solid #dce3eb;border-radius:10px;overflow:hidden}  
+.category-navigation>summary{padding:14px;background:#f3f6fa;cursor:pointer;font-weight:bold}  
+.category-questions{display:flex;flex-wrap:wrap;gap:8px;padding:12px}  
+.category-questions button{width:42px;height:42px;padding:0;background:#e8edf3;color:#263238}  
+.category-questions button.current{background:#1976d2;color:white}  
+.category-questions button.answered{box-shadow:inset 0 -4px #43a047}  
+.category-empty{padding:12px;color:#78909c;font-size:14px}  
+.result{text-align:center;padding:25px 10px}  
+.result h2{font-size:28px}  
+.result-pass{color:#2e7d32}  
+.result-fail{color:#c62828}  
+.review-item{border:1px solid #dce3eb;border-radius:10px;padding:18px;margin-bottom:18px}  
+.review-item h3{margin-top:0}  
+.review-answer{padding:12px;border-radius:6px;margin-top:8px;line-height:1.7;overflow-wrap:anywhere}  
+.review-correct{background:#e8f5e9}  
+.review-incorrect{background:#ffebee}  
+.hidden{display:none!important}  
+@media(max-width:600px){  
+ body{padding:10px}  
+ .container{padding:16px}  
+ .question{font-size:20px}  
+ .navigation button{flex:1 1 40%}  
+ .media-audio{max-width:100%}  
+      
+}  
+      /* Area bacaan Dokkai */
+.passage-container {
+    width: 100%;
+    margin: 15px 0 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.passage-title {
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.passage-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.passage-pdf {
+    display: block;
+    width: 100%;
+    height: 600px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+}
+
+.passage-pdf-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .passage-container {
+        padding: 10px;
+    }
+
+    .passage-pdf {
+        height: 450px;
+    }
+}
+    
+    
+/* Tampilan percakapan Hyougen */  
+.conversation {  
+    width: 100%;  
+    margin: 10px 0 20px;  
+    font-size: 19px;  
+    font-weight: normal;  
+    line-height: 1.7;  
+}  
+  
+.conversation-line {  
+    display: flex;  
+    align-items: flex-start;  
+    gap: 10px;  
+    margin-bottom: 8px;  
+}  
+  
+.conversation-speaker {  
+    flex: 0 0 110px;  
+    min-width: 110px;  
+    font-weight: bold;  
+    white-space: nowrap;  
+    display: flex;  
+    justify-content: space-between;  
+}  
+  
+.conversation-speaker::after {  
+    content: ":";  
+    margin-left: 4px;  
+}  
+  
+.conversation-text {  
+    flex: 1;  
+    min-width: 0;  
+    overflow-wrap: break-word;  
+}  
+  
+@media(max-width:600px) {  
+    .conversation {  
+        font-size: 17px;  
+    }  
+}  
+.question-prompt {  
+    margin-top: 20px;  
+    padding-top: 15px;  
+    border-top: 1px solid #dce3eb;  
+    font-size: 21px;  
+    font-weight: bold;  
+}  
+      
+/* ===================== MEDIA CHOUKAI ===================== */  
+  
+.media-wrapper {  
+    width: 100%;  
+    margin: 12px 0;  
+}  
+  
+.media-description {  
+    font-size: 14px;  
+    color: #607d8b;  
+    margin-bottom: 6px;  
+}  
+  
+.combined-media {  
+    display: flex;  
+    flex-direction: column;  
+    align-items: center;  
+    gap: 12px;  
+    width: 100%;  
+}  
+  
+.combined-media .media-image {  
+    margin: 5px auto;  
+}  
+  
+.combined-media .media-wrapper {  
+    margin: 5px 0;  
+}  
+  
+.option-content .media-audio {  
+    margin: 8px 0;  
+    max-width: 100%;  
+}  
+  
+.option-content .option-image {  
+    margin: 5px 0;  
+}  
+.audio-player {  
+    display: flex;  
+    align-items: center;  
+    gap: 12px;  
+    margin: 15px 0;  
+}  
+  
+.audio-play-button {  
+    background: #287fc4;  
+    color: white;  
+    border: none;  
+    border-radius: 10px;  
+    padding: 14px 24px;  
+    font-size: 16px;  
+    font-weight: bold;  
+    cursor: pointer;  
+}  
+  
+.audio-play-button:disabled {  
+    background: #999;  
+    cursor: not-allowed;  
+}  
+  
+.audio-limit {  
+    font-size: 13px;  
+    color: #607d8b;  
+}  
+    
+/* ===================== FORM ULASAN ===================== */
+
+.review-form-container {
+    max-width: 550px;
+    margin: 25px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+}
+
+.review-form-container h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.review-form-container label {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+.review-form-container input,
+.review-form-container select,
+.review-form-container textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.review-form-container textarea {
+    resize: vertical;
+}
+
+.review-stars {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 12px 0;
+}
+
+.star-button {
+    background: none;
+    border: none;
+    font-size: 35px;
+    color: #cccccc;
+    cursor: pointer;
+}
+
+.star-button.active {
+    color: #f5b301;
+}
+
+.review-required-note {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 13px;
+    color: #777777;
+}
+
+#reviewStatus {
+    margin-top: 15px;
+    color: #b45309;
+    font-size: 14px;
+}
+
+#sendReviewBtn {
+    width: 100%;
+    margin-top: 15px;
+}
+
+#sendReviewBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+</style>  </head>  <body>  
+<div class="container">  
+<h1>Latihan Soal Bahasa Jepang</h1>  <div id="quizArea">  
+    <div class="info">  
+        <div id="progressText">Soal 1 dari 12</div>  
+        <div id="timer" class="timer">11:00</div>  
+    </div>  <div class="progress-container">  
+    <div id="progressBar" class="progress-bar"></div>  
+</div>  
+
+<div id="categoryLabel" class="question-number"></div>  
+<div id="questionNumber" class="question-number"></div>  
+<div id="question" class="question"></div>  
+<div id="options" class="options"></div>  
+
+<div class="navigation">  
+    <button id="prevBtn" class="btn-secondary" onclick="previousQuestion()">← Sebelumnya</button>  
+    <button id="nextBtn" class="btn-primary" onclick="nextQuestion()">Berikutnya →</button>  
+    <button id="submitBtn" class="btn-submit" onclick="confirmSubmit()">Selesai &amp; Nilai</button>  
+</div>  
+
+<details id="questionNavigation" class="question-navigation" open>  
+    <summary>  
+        <span>Navigasi Soal</span>  
+        <span id="navigationStatus"></span>  
+    </summary>  
+    <div id="questionNav"></div>  
+</details>  
+
+<div style="margin-top:20px;text-align:right">  
+    <button class="btn-reset" onclick="confirmReset()">Ulangi dari Awal</button>  
+</div>
+
+</div>  <div id="resultArea" class="hidden"></div>  
+</div>
+    
+    
+<!-- Tempat menerima konfirmasi dari Google Apps Script -->
+<iframe
+    id="reviewFrame"
+    name="reviewFrame"
+    style="display:none">
+</iframe>
+
+<!-- Form pengiriman ulasan -->
+<form
+    id="reviewForm"
+    method="POST"
+    target="reviewFrame"
+    style="display:none">
+
+    <input type="hidden" name="name">
+    <input type="hidden" name="rating">
+    <input type="hidden" name="opinion">
+    <input type="hidden" name="suggestion">
+    <input type="hidden" name="score">
+    <input type="hidden" name="token">
+</form>
+
+    
+ <script>  
+"use strict";  
+  
+/* ===================== PENGATURAN ===================== */  
+  
+const STORAGE_KEY = "japanese_language_quiz_v3";  
+const TIMER_DURATION = 80 * 60;  
+const PASSING_SCORE = 35;  
+const POINTS_PER_QUESTION = 10;  
+  
+const CATEGORY_NAMES = {  
+    moji_goi: "Moji & Goi (文字・語彙)",  
+    hyougen: "Hyougen (表現)",  
+    choukai: "Choukai (聴解)",  
+    dokkai: "Dokkai (読解)"  
+};  
+  
+    const dokkaiPassages = {
+    dokkai_01: {
+        title: "Bacaan Dokkai 1",
+        type: "image",
+        src: "gambar/dokkai1.jpg",
+        alt: "Bacaan Dokkai nomor 37 sampai 39"
+    },
+
+    dokkai_02: {
+        title: "Bacaan Dokkai 2",
+        type: "image",
+        src: "gambar/dokkai2.jpg",
+        alt: "Bacaan Dokkai nomor 40 sampai 42"
+    },
+
+    dokkai_03: {
+        title: "Bacaan Dokkai 3",
+        type: "image",
+        src: "gambar/dokkai3.jpg",
+        alt: "Bacaan Dokkai nomor 42 sampai 45"
+    },
+        
+        dokkai_04: {
+        title: "Bacaan Dokkai 4",
+        type: "image",
+        src: "gambar/dokkai4.jpg",
+        alt: "Bacaan Dokkai nomor 46 sampai 48"
+    },
+        
+        dokkai_05: {
+        title: "Bacaan Dokkai 5",
+        type: "image",
+        src: "gambar/dokkai5.jpg",
+        alt: "Bacaan Dokkai nomor 49 sampai 50"
+    }
+};
+    
+/*  
+FORMAT SOAL:  
+  
+Teks:  
+{type:"text",content:"こんにちは"}  
+  
+Teks dengan garis bawah:  
+{type:"text",content:"野菜",underline:["野菜"]}  
+  
+Gambar:  
+{type:"image",src:"gambar/contoh.jpg",alt:"Gambar contoh"}  
+  
+Audio:  
+{type:"audio",src:"audio/contoh.mp3",alt:"Audio contoh"}  
+  
+Pilihan boleh berupa teks biasa atau objek media.  
+answer: 0=A, 1=B, 2=C, 3=D.  
+*/  
+  
+/* ===================== DATA SOAL ===================== */  
+  
+const quizData = [  
+    {  
+        category:"moji_goi",  
+        question:{  
+            type:"text",  
+            content:"ティカーさん は 学生 です。",  
+            underline:["学生"]  
+        },  
+        options:["がっこう","がっき","がくせい","がくしゅう"],  
+        answer:2  
+    },  
+    {  
+        category:"moji_goi",  
+        question:{  
+            type:"text",  
+            content:"きょうしつ の つくえ の うえ に ルディーさん の じしょ が あります。",  
+            underline:["じしょ"]  
+        },  
+        options:["辞典","辞書","字引","字書"],  
+        answer:1  
+    },  
+    {  
+        category:"moji_goi",  
+        question:{  
+            type:"image",  
+            src:"gambar/parking.jpg",  
+            alt:"Gambar rambu atau tempat parkir"  
+        },  
+        options:["駐車禁止","駐車","駐輪場","駐車場"],  
+        answer:3  
+    },  
+    {  
+        category:"moji_goi",  
+        question:{  
+            type:"text",  
+            content:"図書館",  
+            underline:["図書館"]  
+        },  
+        options:[  
+            {type:"image",src:"gambar/hospital.jpg",alt:"Rumah sakit"},  
+            {type:"image",src:"gambar/perpustakaan.jpg",alt:"Perpustakaan"},  
+            {type:"image",src:"gambar/bank.jpg",alt:"Bank"},  
+            {type:"image",src:"gambar/sekolah.jpg",alt:"Sekolah"}  
+        ],  
+        answer:1  
+    },  
+    {  
+        category:"moji_goi",  
+        question:{  
+            type:"text",  
+            content:"たなかーさん は いま 電話 を かけています。",  
+            underline:["電話"]  
+        },  
+        options:["でんき","でんわ","でんしゃ","でんち"],  
+        answer:1  
+    },  
+    {  
+        category:"moji_goi",  
+        question:{  
+            type:"image",  
+            src:"gambar/jitensha.jpg",  
+            alt:"Gambar sepeda"  
+        },  
+        options:["電車","自動車","自転車","乗用車"],  
+        answer:2  
+    },  
+    {  
+        category:"moji_goi",  
+        question:{  
+            type:"text",  
+            content:"先週 マリアーさん は えいがかん で Upin & Ipin の えいが を みに いきました。",  
+            underline:["先週"]  
+        },  
+        options:["Sengetsu","Raishuu","Rainen","Senshuu"],  
+        answer:3  
+    },  
+    {  
+        category:"moji_goi",  
+        question:{  
+            type:"text",  
+            content:"野菜",  
+            underline:["野菜"]  
+        },  
+        options:["やばい","やさい","やさしい","やすい"],  
+        answer:1  
+    },  
+    {  
+        category:"moji_goi",  
+        question:{  
+            type:"image",  
+            src:"gambar/budou.jpg",  
+            alt:"Gambar buah anggur"  
+        },  
+        options:["ぶどう","ぶんぽう","ぶんか","りんご"],  
+        answer:0  
+    },  
+    {  
+        category:"moji_goi",  
+        question:{  
+            type:"text",  
+            content:"むずかしい",  
+            underline:["むずかしい"]  
+        },  
+        options:["優しい","難しい","新しい","忙しい"],  
+        answer:1  
+    },  
+    {  
+        category:"moji_goi",  
+        question:{  
+            type:"text",  
+            content:"赤い",  
+            underline:["赤い"]  
+        },  
+        options:["あおい","くろい","あかい","しろい"],  
+        answer:2  
+    },  
+    {  
+        category:"moji_goi",  
+        question:{  
+            type:"text",  
+            content:"おんがく",  
+            underline:["おんがく"]  
+        },  
+        options:["温泉","御社","音学","音楽"],  
+        answer:3  
+    },  
+    {  
+  id: 13,  
+  category: "hyougen",  
+  question: {  
+    type: "conversation",  
+    lines: [  
+      { speaker: "ユリーさん", text: "山田ーさん、ちょっと (.....) も いいですか？" },  
+      { speaker: "山田ーさん", text: "はい、なんですか？" },  
+      { speaker: "ユリーさん", text: "明日、仕事 を 休んでも いいですか。アパート の 引っ越し の 手続き の ために、区役所 へ 行きたいん です。" },  
+      { speaker: "山田ーさん", text: "もちろん いい ですよ。早く 用事 を 終わらせて ください！" },  
+      { speaker: "ユリーさん", text: "はい、わかりました。どうも ありがとう ございました。" }  
+    ]  
+  },  
+  prompt: "(.....) 内 に 入る 最も 適切な 言葉 を 選びなさい。",  
+  options: [  
+    "話す",  
+    "話します",  
+    "話して",  
+    "話したい"  
+  ],  
+  answer: 2  
+},  
+  
+{  
+  id: 14,  
+  category: "hyougen",  
+  question: {  
+    type: "conversation",  
+    lines: [  
+      { speaker: "ハニーさん", text: "リカーさん、どうしましたか？あまり 元気 が なさそう ですね。" },  
+      { speaker: "リカーさん", text: "二日 前 から、熱 が あって、咳 と 風邪 の 症状 が あります。" },  
+      { speaker: "ハニーさん", text: "もう 病院 へ 行きましたか？" },  
+      { speaker: "リカーさん", text: "いいえ、まだ です。今日 (.....) つもり です。" },  
+      { speaker: "ハニーさん", text: "それ は 大変 ですね。早く 良く なって くださいね！" }  
+    ]  
+  },  
+  prompt: "(.....) 内 に 入る 最も 適切な 言葉 を 選びなさい。",  
+  options: [  
+    "行きなす",  
+    "行く",  
+    "行きたい",  
+    "行って"  
+  ],  
+  answer: 1  
+},  
+  
+{  
+  id: 15,  
+  category: "hyougen",  
+  question: {  
+    type: "conversation",  
+    lines: [  
+      { speaker: "生徒", text: "先生、明日 試験 が ありますか？" },  
+      { speaker: "先生", text: "もちろん ありますよ。２５ ページ から ４０ ページ まで 勉強して ください。その ページ から 問題 が 出ます。昨日 の 宿題 は (.....) 終わりましたか？" },  
+      { speaker: "生徒", text: "はい、終わりました、先生。" },  
+      { speaker: "先生", text: "じゃあ、あとで 休み 時間 に 先生 の 机 に 出して くださいね！" }  
+    ]  
+  },  
+  prompt: "(.....) 内 に 入る 最も 適切な 言葉 を 選びなさい。",  
+  options: [  
+    "まだ",  
+    "あと",  
+    "まえ",  
+    "もう"  
+  ],  
+  answer: 3  
+},  
+  
+{  
+  id: 16,  
+  category: "hyougen",  
+  question: {  
+    type: "conversation",  
+    lines: [  
+      { speaker: "Ahmadーsan", text: "明日、暇 ですか？" },  
+      { speaker: "Bayuーsan", text: "まだ わかりません。どうして ですか？" },  
+      { speaker: "Ahmadーsan", text: "明日 は さくら 先生 の 誕生日 です。先生 の 家 で パーティー が ありますよ。" },  
+      { speaker: "Bayuーsan", text: "え、本当 ですか。一緒に 行きませんか? 何時 から ですか？" },  
+      { speaker: "Ahmadーsan", text: "午後 四時半 から です。四時 に Kitano 駅 で 会いませんか？" },  
+      { speaker: "Bayuーsan", text: "はい、わかりました。(.....)。" }  
+    ]  
+  },  
+  prompt: "(.....) 内 に 入る 最も 適切な 言葉 を 選びなさい。",  
+  options: [  
+    "また あした",  
+    "ありがとう",  
+    "どうも",  
+    "さようなら"  
+  ],  
+  answer: 0  
+},  
+  
+{  
+  id: 17,  
+  category: "hyougen",  
+  question: {  
+    type: "conversation",  
+    lines: [  
+      { speaker: "Andiーsan", text: "すみません。お手洗い は どこ ですか？" },  
+      { speaker: "Budiーsan", text: "あ、お手洗い は 二階 の エレベーター の 隣 に ありますよ。" },  
+      { speaker: "Andiーsan", text: "ありがとうございます。" },  
+      { speaker: "Budiーsan", text: "(.....)。" }  
+    ]  
+  },  
+  prompt: "(.....) 内 に 入る 最も 適切な 言葉 を 選びなさい。",  
+  options: [  
+    "そうです",  
+    "おかえり",  
+    "じゃあね",  
+    "どういたしまして"  
+  ],  
+  answer: 3  
+},  
+  
+{  
+  id: 18,  
+  category: "hyougen",  
+  question: {  
+    type: "conversation",  
+    lines: [  
+      { speaker: "リコーさん", text: "ちょっと、いい ですか？" },  
+      { speaker: "ひろしーさん", text: "なん ですか？" },  
+      { speaker: "リコーさん", text: "田中ーさん は (.....) 人 ですか？" },  
+      { speaker: "ひろしーさん", text: "あの 青い ネクタイ を している 人 ですよ。" },
+      { speaker: "リコーさん", text: "わかった、どうも。" }  
+
+    ]  
+  },  
+  prompt: "(.....) 内 に 入る 最も 適切な 言葉 を 選びなさい。",  
+  options: [  
+    "どこ",  
+    "どの",  
+    "ここ",  
+    "この"  
+  ],  
+  answer: 1  
+},  
+  
+{  
+  id: 19,  
+  category: "hyougen",  
+  question: {  
+    type: "conversation",  
+    lines: [  
+      { speaker: "ナミーさん", text: "ロラーさん、休み の 日 は いつ ですか? " },  
+      { speaker: "ロラーさん", text: "土曜日 です。どうしましたか？" },  
+      { speaker: "ナミーさん", text: "じゃあ、一緒に 本 屋 へ 行きませんか？" },  
+      { speaker: "ロラーさん", text: "(.....)、ちょっと……。" },  
+      { speaker: "ナミーさん", text: "あ、大丈夫 ですよ。また 今度 行きましょう！" }  
+    ]  
+  },  
+  prompt: "(.....) 内 に 入る 最も 適切な 言葉 を 選びなさい。",  
+  options: [  
+    "はい",  
+    "わかった",  
+    "すみません",  
+    "さんきゅ"  
+  ],  
+  answer: 2  
+},  
+  
+{  
+  id: 20,  
+  category: "hyougen",  
+  question: {  
+    type: "conversation",  
+    lines: [  
+      { speaker: "A", text: "あのう、銀行 へ 行きたいんですが……。" },  
+      { speaker: "B", text: "あの 白い ビル が 見えますか？" },  
+      { speaker: "A", text: "あ、あの 黒い ビル ですね？" },  
+      { speaker: "B", text: "(.....)、白い ビル ですよ。銀行 は その 隣 です。" },
+      { speaker: "A", text: "はい、わかりました。ありがとう。" }
+    ]  
+  },  
+  prompt: "(.....) 内 に 入る 最も 適切な 言葉 を 選びなさい。",  
+  options: [  
+    "いいえ",  
+    "だめ",  
+    "はい",  
+    "いい よ"  
+  ],  
+  answer: 0  
+},  
+  
+{  
+  id: 21,  
+  category: "hyougen",  
+  question: {  
+    type: "conversation",  
+    lines: [  
+      { speaker: "ゲリーさん", text: "先生 は どこ ですか？" },  
+      { speaker: "ハディーさん", text: "まだ 部屋 に いる よう ですね。(.....)？" },  
+      { speaker: "ゲリーさん", text: "すみません、今日 は お先に 帰って くださいね！" },  
+      { speaker: "ハディーさん", text: "ええっ。今日 ゲームセンター へ 行く 予定 は どうしますか？" },  
+      { speaker: "ゲリーさん", text: "また 今度 に しましょう。先生 に 会わなければなりません。聞きたい こと が あるんです。じゃあね。" }  
+    ]  
+  },  
+  prompt: "(.....) 内 に 入る 最も 適切な 言葉 を 選びなさい。",  
+  options: [  
+    "どうやって",  
+    "どれですか",  
+    "だれですか",  
+    "どうしたんですか"  
+  ],  
+  answer: 3  
+},  
+  
+{  
+  id: 22,  
+  category: "hyougen",  
+  question: {  
+    type: "conversation",  
+    lines: [  
+      { speaker: "ヌルルーさん", text: "ミラーさん、夏 休み は どうでしたか？" },  
+      { speaker: "ミラーさん", text: "とても (.....) よ。アニェールビーチ へ 行きました。" },  
+      { speaker: "ヌルルーさん", text: "わあ、いい ですね。そこ で 何 を しましたか？" },  
+      { speaker: "ミラーさん", text: "いろいろな こと を しました。泳いだり、貝 を 探したり、写真 を 撮ったり、家族 と ご飯 を 食べたりしました。とにかく そこ に 行ってみて ですよ。" },  
+      { speaker: "ヌルルーさん", text: "わあ、うらやましい です。私 も いつか 行ってみたい です。" }  
+    ]  
+  },  
+  prompt: "(.....) 内 に 入る 最も 適切な 言葉 を 選びなさい。",  
+  options: [  
+    "難しかったです",  
+    "楽しかったです",  
+    "美味しかったです",  
+    "忙しかったです"  
+  ],  
+  answer: 1  
+},  
+  
+{  
+  id: 23,  
+  category: "hyougen",  
+  question: {  
+    type: "conversation",  
+    lines: [  
+      { speaker: "マリーさん", text: "ご結婚、(.....)。" },  
+      { speaker: "スチーさん", text: "ありがとうございます。" },  
+      { speaker: "ギナーさん", text: "これ、私たち から の プレゼント です。家 に 帰って から 開けて くださいね。" },  
+      { speaker: "スチーさん", text: "わあ、嬉しいです。皆さん、どうも ありがとう ございました。日曜日 に 家 で 小さい パーティー を しますから、ぜひ 来てくださいね。" },  
+      { speaker: "マリーさん", text: "もちろん、必ず 行きます。" }  
+    ]  
+  },  
+  prompt: "(.....) 内 に 入る 最も 適切な 言葉 を 選びなさい。",  
+  options: [  
+    "おめでとうございます",  
+    "ありがとうございます",  
+    "おはようございます",  
+    "でございます"  
+  ],  
+  answer: 0  
+},  
+  
+{  
+  id: 24,  
+  category: "hyougen",  
+  question: {  
+    type: "conversation",  
+    lines: [  
+      { speaker: "Alifーsan", text: "日本 について 何 を 知っていますか？" },  
+      { speaker: "Boyーsan", text: "たくさん の 文化 が あります。" },  
+      { speaker: "Alifーsan", text: "(.....) 文化 を 知っていますか？" },  
+      { speaker: "Boyーsan", text: "花見 です。桜 が 咲いている ところ を 直接 見る の は、私 に とって とても 楽しい こと です。" },  
+      { speaker: "Alifーsan", text: "そう ですか。いつ の 季節 ですか？" },  
+      { speaker: "Boyーsan", text: "春 です。" }  
+    ]  
+  },  
+  prompt: "(.....) 内 に 入る 最も 適切な 言葉 を 選びなさい。",  
+  options: [  
+    "どの",  
+    "どんな",  
+    "だれ",  
+    "どこ"  
+  ],  
+  answer: 1  
+},  
+      
+{  
+    id: 25,  
+    category: "choukai",  
+    question: {  
+        type: "audio",  
+        src: "audio/audio1.mp3",  
+        alt: "Audio percakapan nomor 25"  
+    },  
+    prompt: "トンーさん は どこ から 来ましたか。",  
+    options: [  
+        "韓国",  
+        "タイ",  
+        "中国",  
+        "インド"  
+    ],  
+    answer: 1  
+},  
+    {  
+    id: 26,  
+    category: "choukai",  
+    question: {  
+        type: "audio",  
+        src: "audio/audio2.mp3",  
+        alt: "Audio percakapan nomor 26"  
+    },  
+    prompt: "どなた が カンボジア 出身 です か？",  
+    options: [  
+        "かねこ",  
+        "チャン",  
+        "ケマラ",  
+        "ハイ"  
+    ],  
+    answer: 2  
+},  
+    {  
+    id: 27,  
+    category: "choukai",  
+    question: {  
+        type: "audio",  
+        src: "audio/audio3.mp3",  
+        alt: "Audio percakapan nomor 27"  
+    },  
+    prompt: "会話 の 中で, 子ども の 年齢 は 何歳 ですか。",  
+    options: [  
+        "三歳",  
+        "二十五歳",  
+        "五歳",  
+        "四歳"  
+    ],  
+    answer: 3  
+},  
+    {  
+    id: 28,  
+    category: "choukai",  
+    question: {  
+        type: "audio",  
+        src: "audio/audio4.mp3",  
+        alt: "Audio percakapan nomor 28"  
+    },  
+    prompt: "アミラーさん は 朝ご飯 に よく 何 を 食べますか？",  
+    options: [  
+        {  
+  type: "image",  
+  src: "gambar/pan.jpg",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "image",  
+  src: "gambar/sereal.jpg",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "image",  
+  src: "gambar/mizu.jpg",  
+  alt: "Pilihan gambar A"  
+},  
+       {  
+  type: "image",  
+  src: "gambar/milk.jpg",  
+  alt: "Pilihan gambar A"  
+}  
+    ],  
+    answer: 0  
+},
+    
+    {  
+    id: 29,  
+    category: "choukai",  
+    question: {  
+        type: "audio",  
+        src: "audio/audio5.mp3",  
+        alt: "Audio percakapan nomor 29"  
+    },  
+    prompt: "会話 の 中で、男の人 は 何の 飲み物 を 注文しましたか？",  
+    options: [  
+        {  
+  type: "image",  
+  src: "gambar/koucha.jpg",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "image",  
+  src: "gambar/ocha.jpg",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "image",  
+  src: "gambar/uurong.jpg",  
+  alt: "Pilihan gambar A"  
+},  
+       {  
+  type: "image",  
+  src: "gambar/jus.jpg",  
+  alt: "Pilihan gambar A"  
+}  
+    ],  
+    answer: 2 
+}, 
+    {
+  id: 30,
+  category: "choukai",
+
+  question: {
+    type: "media",
+    image: "gambar/kaidan.jpg",
+    audio: "audio/audio6.mp3"
+  },
+
+  prompt: "",
+
+  options: [
+    {  
+  type: "image",  
+  src: "gambar/delapan.png",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "image",  
+  src: "gambar/tujuh.png",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "image",  
+  src: "gambar/lima.png",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "image",  
+  src: "gambar/enam.png",  
+  alt: "Pilihan gambar A"  
+} 
+  ],
+
+  answer: 1
+},
+    {
+  id: 31,
+  category: "choukai",
+
+  question: {
+    type: "media",
+    image: "gambar/suihanki.jpg",
+    audio: "audio/audio7.mp3"
+  },
+
+  prompt: "",
+
+  options: [
+    {  
+  type: "image",  
+  src: "gambar/f.jpg",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "image",  
+  src: "gambar/e.jpg",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "image",  
+  src: "gambar/c.jpg",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "image",  
+  src: "gambar/d.jpg",  
+  alt: "Pilihan gambar A"  
+} 
+  ],
+
+  answer: 3
+},
+    
+    {  
+    id: 32,  
+    category: "choukai",  
+    question: {  
+        type: "audio",  
+        src: "audio/audio8.mp3",  
+        alt: "Audio percakapan nomor 32"  
+    },  
+    prompt: "パウローさん は 毎朝 何時に 起きますか？",  
+    options: [  
+        "午前 10時半",  
+        "午前 5時",  
+        "午後 5時",  
+        "午後 10時半"  
+    ],  
+    answer: 1 
+},  
+     {  
+    id: 33,  
+    category: "choukai",  
+    question: {  
+        type: "audio",  
+        src: "audio/audio9.mp3",  
+        alt: "Audio percakapan nomor 33"  
+    },  
+    prompt: " 全部 の 休憩時間 は どのくらい ですか？",  
+    options: [  
+        "1時間",  
+        "半時間",  
+        "1時間半",  
+        "30分です"  
+    ],  
+    answer: 2
+},
+    {
+  id: 34,
+  category: "choukai",
+
+  question: {
+    type: "audio",  
+    src: "audio/audio10.mp3",  
+    alt: "Audio percakapan nomor 34"  
+  },
+
+  prompt: "会話 の 中で 話されていない 趣味 は どれ ですか？",
+
+  options: [
+    {  
+  type: "image",  
+  src: "gambar/ball.jpg",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "image",  
+  src: "gambar/renang.jpg",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "image",  
+  src: "gambar/basket.jpg",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "image",  
+  src: "gambar/komik.jpg",  
+  alt: "Pilihan gambar A"  
+} 
+  ],
+
+  answer: 0
+},
+    {
+  id: 35,
+  category: "choukai",
+
+  question: {
+    type: "image",
+    src: "gambar/loket.jpg"
+  },
+
+  prompt: "上 の 絵 に 合う 会話 は どれ ですか？",
+
+  options: [
+    {  
+  type: "audio",  
+  src: "audio/audio14.mp3",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "audio",  
+  src: "audio/audio13.mp3",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "audio",  
+  src: "audio/audio11.mp3",  
+  alt: "Pilihan gambar A"  
+},  
+        {  
+  type: "audio",  
+  src: "audio/audio12.mp3",  
+  alt: "Pilihan gambar A"  
+} 
+  ],
+
+  answer: 2
+},
+    {  
+    id: 36,  
+    category: "choukai",  
+    question: {  
+        type: "media",
+        image: "gambar/pilihan.jpg",
+        audio: "audio/audio15.mp3"  
+    },  
+    prompt: "上 の 会話 から、正しい 選択肢 は どれ ですか？",  
+    options: [  
+        "",  
+        "",  
+        "",  
+        ""  
+    ],  
+    answer: 1 
+},
+    
+    {
+    id: 37,
+    category: "dokkai",
+    passage: "dokkai_01",
+    question: {
+        type: "text",
+        content: " いずみプラザ の 映画上映会 は、何回 ありますか？"
+    },
+    options: [
+        "1回",
+        "2回",
+        "3回",
+        "4回"
+    ],
+    answer: 1
+},
+{
+    id: 38,
+    category: "dokkai",
+    passage: "dokkai_01",
+    question: {
+        type: "text",
+        content: "3人で 映画 を 見に 行く 場合、入場料 は 全部で いくら に なりますか？"
+    },
+    options: [
+        "500円",
+        "1,000円",
+        "2,000円",
+        "1,500円"
+    ],
+    answer: 3
+},
+    {
+    id: 39,
+    category: "dokkai",
+    passage: "dokkai_01",
+    question: {
+        type: "text",
+        content: "映画上映会 が 行われる 場所 は どこ ですか？"
+    },
+    options: [
+        "いずみシアター",
+        "いずみプラザ ホール",
+        "いずみシネマ",
+        "いずみえいがかん"
+    ],
+    answer: 1
+},
+  
+    {
+    id: 40,
+    category: "dokkai",
+    passage: "dokkai_02",
+    question: {
+        type: "text",
+        content: "全部で 野菜 を いくつ 買いましたか？"
+    },
+    options: [
+        "3個",
+        "5個",
+        "6個",
+        "4個"
+    ],
+    answer: 2
+ },       
+     {
+    id: 41,
+    category: "dokkai",
+    passage: "dokkai_02",
+    question: {
+        type: "text",
+        content: "スーパーで どんな 商品 を 買いましたか?"
+    },
+    options: [
+        "お菓子、玉ねぎ、卵",
+        "人参、玉ねぎ、牛乳",
+        "人参、牛肉、チョコレート",
+        "トマト、牛乳、卵"
+    ],
+    answer: 1
+ },  
+    {
+    id: 42,
+    category: "dokkai",
+    passage: "dokkai_02",
+    question: {
+        type: "text",
+        content: "最終的に、支払い 方法 は どの ように なりますか？"
+    },
+    options: [
+        "現金",
+        "お金",
+        "デビットカード",
+        "クレジットカード"
+    ],
+    answer: 3
+ },  
+    {
+    id: 43,
+    category: "dokkai",
+    passage: "dokkai_03",
+    question: {
+        type: "text",
+        content: "水曜日 に この ポスター を 見た 場合、イベント まで あと 何日 ありますか？"
+    },
+    options: [
+        "あと2日",
+        "あと3日",
+        "あと4日",
+        "あと5日"
+    ],
+    answer: 1
+ },  
+    {
+    id: 44,
+    category: "dokkai",
+    passage: "dokkai_03",
+    question: {
+        type: "text",
+        content: "ポスター に よる と、友だち の ほかに 誰 が参加 できますか？"
+    },
+    options: [
+        "近所 の 人",
+        "先生",
+        "1人 だけ",
+        "家族"
+    ],
+    answer: 3
+ }, 
+    {
+    id: 45,
+    category: "dokkai",
+    passage: "dokkai_03",
+    question: {
+        type: "text",
+        content: "この ポスター の タイトル は 何ですか？"
+    },
+    options: [
+        "あおぞら 交流バーベキュー",
+        "駐車場",
+        "家族や友だちもいっしょにどうぞ！",
+        "北浦和 日本語ボランティア教室"
+    ],
+    answer: 0
+ }, 
+    {
+    id: 46,
+    category: "dokkai",
+    passage: "dokkai_04",
+    question: {
+        type: "text",
+        content: "手紙 を 送った 人 は、友達 の 家 に何日間 泊まりたい と 言っていますか? "
+    },
+    options: [
+        "一週間",
+        "二日間",
+        "月曜日まで",
+        "一日だけ"
+    ],
+    answer: 1
+ }, 
+    {
+    id: 47,
+    category: "dokkai",
+    passage: "dokkai_04",
+    question: {
+        type: "text",
+        content: "この 手紙 について、正しい もの は どれ ですか? "
+    },
+    options: [
+        "二人は最近よく会って話している。",
+        "手紙を送った人は今、日本にいる。",
+        "友達はもう泊まることを許可した。",
+        "手紙を送った人は、友達の返事を待っている。"
+    ],
+    answer: 3
+ }, 
+    {
+    id: 48,
+    category: "dokkai",
+    passage: "dokkai_04",
+    question: {
+        type: "text",
+        content: " 手紙 を 送った 人 は、昼間 に 何を 計画していますか? "
+    },
+    options: [
+        "友達と一緒に東京を観光する。",
+        "ガイド（案内）と一緒に観光地を回る。",
+        "一人で東京の有名な場所に行く。",
+        "友達の家族と日本料理を食べる。"
+    ],
+    answer: 2
+ }, 
+    {
+    id: 49,
+    category: "dokkai",
+    passage: "dokkai_05",
+    question: {
+        type: "text",
+        content: "１にちめの よる、こどもたち は なに を しますか? "
+    },
+    options: [
+        "てんとの くみたてを はじめる。",
+        "おいしい かれーを つくって たべます。",
+        "きゃんぷふぁいやーを たのしみます。",
+        "がっこうへ しゅっぱつする じゅんびを する。"
+    ],
+    answer: 1
+ }, 
+    {
+    id: 50,
+    category: "dokkai",
+    passage: "dokkai_05",
+    question: {
+        type: "text",
+        content: " たから さがし げーむ は、なんにちめの なんじに はじまりますか。? "
+    },
+    options: [
+        "１にちめの １３：００。",
+        "２にちめの ０９：００。",
+        "２にちめの １４：００。",
+        "３にちめの ０９：００。"
+    ],
+    answer: 2
+ }, 
+    
+];  
+  
+/* ===================== STATUS ===================== */  
+  
+let currentQuestion = 0;  
+let userAnswers = new Array(quizData.length).fill(null);  
+let remainingTime = TIMER_DURATION;  
+let timerInterval = null;  
+let quizFinished = false;  
+let isFinishing = false;  
+let timeIsUp = false;  
+    // Menyimpan jumlah pemutaran setiap audio  
+const audioPlayCounts = new Map();  
+  
+function escapeHTML(value) {  
+    return String(value).replace(/[&<>"']/g, character => ({  
+        "&":"&amp;",  
+        "<":"&lt;",  
+        ">":"&gt;",  
+        '"':"&quot;",  
+        "'":"&#39;"  
+    })[character]);  
+}  
+  
+/* ===================== RENDER TEKS / GAMBAR / AUDIO ===================== */  
+  
+  
+/* ===================== RENDER TEKS / GAMBAR / AUDIO ===================== */  
+  
+function renderContent(content, imageClass = "media-image") {  
+    if (content === null || content === undefined) return "";  
+  
+    // TEKS BIASA  
+    if (typeof content === "string" || typeof content === "number") {  
+        return escapeHTML(content);  
+    }  
+  
+    if (typeof content !== "object") return "";  
+  
+    // TEKS DENGAN GARIS BAWAH  
+    if (content.type === "text") {  
+        let output = escapeHTML(content.content || "");  
+  
+        if (Array.isArray(content.underline)) {  
+            content.underline.forEach(word => {  
+                const escapedWord = escapeHTML(word);  
+                if (!escapedWord) return;  
+  
+                const safeWord = escapedWord.replace(  
+                    /[.*+?^${}()|[\]\\]/g,  
+                    "\\$&"  
+                );  
+  
+                output = output.replace(  
+                    new RegExp(safeWord, "g"),  
+                    '<span class="underlined-word">$&</span>'  
+                );  
+            });  
+        }  
+  
+        return output;  
+    }  
+  
+    // PERCAKAPAN HYOUGEN  
+    if (content.type === "conversation") {  
+        if (!Array.isArray(content.lines)) return "";  
+  
+        return `  
+            <div class="conversation">  
+                ${content.lines.map(line => `  
+                    <div class="conversation-line">  
+                        <span class="conversation-speaker">  
+                            ${escapeHTML(line.speaker || "")}  
+                        </span>  
+                        <span class="conversation-text">  
+                            ${escapeHTML(line.text || "")}  
+                        </span>  
+                    </div>  
+                `).join("")}  
+            </div>  
+        `;  
+    }  
+  
+    // GAMBAR  
+    if (content.type === "image") {  
+        if (!content.src) return "";  
+  
+        return `  
+            <img  
+                class="${imageClass}"  
+                src="${escapeHTML(content.src)}"  
+                alt="${escapeHTML(content.alt || "Gambar soal")}"  
+                loading="eager"  
+                onerror="this.style.display='none'"  
+            >  
+        `;  
+    }  
+  
+  // AUDIO  
+// AUDIO  
+if (content.type === "audio") {  
+    if (!content.src) return "";  
+  
+    const audioId = "audio-" + Math.random().toString(36).slice(2);  
+  
+    // Setiap file audio memiliki hitungan sendiri  
+    const audioKey = content.src;  
+    const count = audioPlayCounts.get(audioKey) || 0;  
+  
+    let buttonText = "▶ Play Audio";  
+  
+    if (count === 1) {  
+        buttonText = "▶ Putar lagi (1 kali)";  
+    } else if (count >= 2) {  
+        buttonText = "Audio selesai";  
+    }  
+  
+    return `  
+        <div class="audio-player">  
+            <audio  
+                id="${audioId}"  
+                src="${escapeHTML(content.src)}"  
+                preload="none">  
+            </audio>  
+  
+            <button  
+                type="button"  
+                class="audio-play-button"  
+                data-audio-id="${audioId}"  
+                data-audio-key="${escapeHTML(audioKey)}"  
+                ${count >= 2 ? "disabled" : ""}>  
+                ${buttonText}  
+            </button>  
+  
+            <span class="audio-limit">Maksimal 2 kali</span>  
+        </div>  
+    `;  
+}  
+    // KOMBINASI GAMBAR + AUDIO  
+    if (content.type === "media") {  
+        let output = "";  
+  
+        if (content.image) {  
+            output += renderContent({  
+                type: "image",  
+                src: content.image,  
+                alt: content.alt || "Gambar soal"  
+            }, imageClass);  
+        }  
+  
+        if (content.audio) {  
+            output += renderContent({  
+                type: "audio",  
+                src: content.audio,  
+                alt: content.audioAlt || "Audio soal"  
+            });  
+        }  
+  
+        return `  
+            <div class="combined-media">  
+                ${output}  
+            </div>  
+        `;  
+    }  
+  
+    return "";  
+}  
+document.addEventListener("click", async function(e) {  
+    const button = e.target.closest(".audio-play-button");  
+  
+    if (!button) return;  
+  
+    const audioId = button.dataset.audioId;  
+    const audioKey = button.dataset.audioKey;  
+    const audio = document.getElementById(audioId);  
+  
+    if (!audio || button.disabled) return;  
+  
+    let count = audioPlayCounts.get(audioKey) || 0;  
+  
+    // Maksimal 2 kali pemutaran  
+    if (count >= 2) {  
+        button.textContent = "Audio selesai";  
+        button.disabled = true;  
+        return;  
+    }  
+  
+    // Jangan mulai lagi jika audio sedang diputar  
+    if (!audio.paused) return;  
+  
+    try {  
+        audio.currentTime = 0;  
+  
+        // Tambahkan hitungan setelah pemutaran berhasil dimulai  
+        await audio.play();  
+  
+        count++;  
+        audioPlayCounts.set(audioKey, count);  
+  
+        button.textContent = "▶ Memutar...";  
+  
+    } catch (error) {  
+        console.error("Audio gagal diputar:", error);  
+        button.textContent = "▶ Coba lagi";  
+        return;  
+    }  
+  
+    audio.onended = function() {  
+        const total = audioPlayCounts.get(audioKey) || 0;  
+  
+        if (total >= 2) {  
+            button.textContent = "Audio selesai";  
+            button.disabled = true;  
+        } else {  
+            button.textContent = "▶ Putar lagi (1 kali)";  
+        }  
+    };  
+});  
+    function resetAudioPlayCounts() {  
+    Object.keys(localStorage).forEach(key => {  
+        if (key.startsWith("audioPlayCount:v3:")) {  
+            localStorage.removeItem(key);  
+        }  
+    });  
+}  
+    
+    function renderPassage(passage) {
+    if (!passage) return "";
+
+    // Jika bacaan menggunakan ID dari dokkaiPassages
+    if (typeof passage === "string") {
+        passage = dokkaiPassages[passage];
+    }
+
+    if (!passage) return "";
+
+    const title = passage.title
+        ? `<div class="passage-title">${escapeHTML(passage.title)}</div>`
+        : "";
+
+    let content = "";
+
+    if (passage.type === "image") {
+        content = `
+            <img
+                src="${escapeHTML(passage.src)}"
+                alt="${escapeHTML(passage.alt || "Bacaan Dokkai")}"
+                class="passage-image"
+                loading="eager"
+            >
+        `;
+    }
+
+    else if (passage.type === "pdf") {
+        const pdfSrc = escapeHTML(passage.src);
+
+        content = `
+            <iframe
+                src="${pdfSrc}"
+                class="passage-pdf"
+                title="${escapeHTML(passage.title || "Bacaan Dokkai")}"
+            ></iframe>
+
+            <a
+                href="${pdfSrc}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="passage-pdf-link"
+            >
+                Buka PDF di tab baru
+            </a>
+        `;
+    }
+
+    else {
+        return "";
+    }
+
+    return `
+        <div class="passage-container">
+            ${title}
+            ${content}
+        </div>
+    `;
+}
+    
+/* ===================== NAVIGASI BERURUTAN ===================== */  
+  
+function getFirstUnanswered() {  
+    return userAnswers.findIndex(answer => answer === null);  
+}  
+  
+  
+/* ===================== RENDER SOAL ===================== */  
+  
+function renderQuestion() {  
+    if (quizFinished) return;  
+  
+    const q = quizData[currentQuestion];  
+  
+    document.getElementById("progressText").textContent =  
+        `Soal ${currentQuestion + 1} dari ${quizData.length}`;  
+  
+    document.getElementById("progressBar").style.width =  
+        `${((currentQuestion + 1) / quizData.length) * 100}%`;  
+  
+    document.getElementById("questionNumber").textContent =  
+        `SOAL NOMOR ${currentQuestion + 1}`;  
+  
+    document.getElementById("categoryLabel").textContent =  
+        CATEGORY_NAMES[q.category] || CATEGORY_NAMES.moji_goi;  
+  
+    // TAMPILKAN ISI SOAL  
+    const questionContainer = document.getElementById("question");
+
+// Tampilkan bacaan Dokkai jika tersedia
+let questionHTML = "";
+
+if (q.passage) {
+    questionHTML += renderPassage(q.passage);
+}
+
+// Tampilkan pertanyaan
+questionHTML += renderContent(q.question);
+
+questionContainer.innerHTML = questionHTML; 
+    // TAMPILKAN INSTRUKSI / PERTANYAAN  
+    if (q.prompt) {  
+        questionContainer.innerHTML += `  
+            <div class="question-prompt">  
+                ${escapeHTML(q.prompt)}  
+            </div>  
+        `;  
+    }  
+  
+    // TAMPILKAN PILIHAN JAWABAN  
+    const optionsContainer = document.getElementById("options");  
+    optionsContainer.innerHTML = "";  
+  
+    q.options.forEach((option, index) => {  
+        const element = document.createElement("div");  
+        element.className = "option";  
+  
+        if (userAnswers[currentQuestion] === index) {  
+            element.classList.add("selected");  
+        }  
+  
+        const letter = document.createElement("div");  
+        letter.className = "option-letter";  
+        letter.textContent = String.fromCharCode(65 + index);  
+  
+        const content = document.createElement("div");  
+        content.className = "option-content";  
+        content.innerHTML = renderContent(option, "option-image");  
+  
+        element.appendChild(letter);  
+        element.appendChild(content);  
+  
+        if (timeIsUp) {  
+            element.style.opacity = "0.5";  
+            element.style.cursor = "not-allowed";  
+            element.style.pointerEvents = "none";  
+        } else {  
+            element.addEventListener("click", (event) => {  
+                  // Jangan memilih jawaban jika yang diklik adalah pemutar audio
+    if (event.target.closest(".audio-player")) {
+        return;
+    }
+                selectAnswer(index);  
+            });  
+        }  
+  
+        optionsContainer.appendChild(element);  
+    });  
+  
+    // TOMBOL NAVIGASI  
+    document.getElementById("prevBtn").disabled =  
+        currentQuestion === 0 || timeIsUp;  
+  
+    document.getElementById("nextBtn").disabled =  
+        currentQuestion === quizData.length - 1 ||  
+        userAnswers[currentQuestion] === null ||  
+        timeIsUp;  
+  
+    renderQuestionNavigation();  
+    saveProgress();  
+}  
+  
+  
+function selectAnswer(index) {  
+    if (quizFinished || timeIsUp) return;  
+  
+    userAnswers[currentQuestion] = index;  
+    renderQuestion();  
+}  
+  
+function previousQuestion() {  
+    if (timeIsUp || quizFinished) return;  
+  
+    if (currentQuestion > 0) {  
+        currentQuestion--;  
+        renderQuestion();  
+    }  
+}  
+  
+function nextQuestion() {  
+    if (timeIsUp || quizFinished) return;  
+  
+    if (userAnswers[currentQuestion] === null) {  
+        showMessage(  
+            "Soal Belum Dijawab",  
+            "Silakan pilih salah satu jawaban terlebih dahulu.",  
+            "warning"  
+        );  
+        return;  
+    }  
+  
+    if (currentQuestion < quizData.length - 1) {  
+        currentQuestion++;  
+        renderQuestion();  
+    }  
+}  
+  
+function goToQuestion(index) {  
+    if (timeIsUp || quizFinished) return;  
+    if (index < 0 || index >= quizData.length) return;  
+  
+    const firstUnanswered = getFirstUnanswered();  
+  
+    if (firstUnanswered !== -1 && index > firstUnanswered) {  
+        showMessage(  
+            "Belum Bisa Melompat",  
+            "Jawab soal sebelumnya terlebih dahulu.",  
+            "warning"  
+        );  
+        return;  
+    }  
+  
+    currentQuestion = index;  
+    renderQuestion();  
+}  
+  
+/* ===================== NAVIGASI DROPDOWN KATEGORI ===================== */  
+  
+function renderQuestionNavigation() {  
+    const navigation = document.getElementById("questionNav");  
+    const status = document.getElementById("navigationStatus");  
+  
+    navigation.innerHTML = "";  
+  
+    const categories = [  
+        {id:"moji_goi",name:CATEGORY_NAMES.moji_goi},  
+        {id:"hyougen",name:CATEGORY_NAMES.hyougen},  
+        {id:"choukai",name:CATEGORY_NAMES.choukai},  
+        {id:"dokkai",name:CATEGORY_NAMES.dokkai}  
+    ];  
+  
+    const unansweredCount = userAnswers.filter(  
+        answer => answer === null  
+    ).length;  
+  
+    status.textContent =  
+        `Terjawab ${quizData.length - unansweredCount}/${quizData.length}`;  
+  
+    categories.forEach(category => {  
+        const indexes = [];  
+  
+        quizData.forEach((question, index) => {  
+            if ((question.category || "moji_goi") === category.id) {  
+                indexes.push(index);  
+            }  
+        });  
+  
+        const details = document.createElement("details");  
+        details.className = "category-navigation";  
+  
+        if (indexes.includes(currentQuestion)) {  
+            details.open = true;  
+        }  
+  
+        const summary = document.createElement("summary");  
+        summary.textContent =  
+            `${category.name} (${indexes.length} soal)`;  
+  
+        details.appendChild(summary);  
+  
+        if (indexes.length === 0) {  
+            const empty = document.createElement("div");  
+            empty.className = "category-empty";  
+            empty.textContent = "Belum ada soal dalam kategori ini.";  
+            details.appendChild(empty);  
+        } else {  
+            const buttons = document.createElement("div");  
+            buttons.className = "category-questions";  
+  
+            indexes.forEach(index => {  
+                const button = document.createElement("button");  
+                button.type = "button";  
+                button.textContent = index + 1;  
+  
+                if (index === currentQuestion) {  
+                    button.classList.add("current");  
+                }  
+  
+                if (userAnswers[index] !== null) {  
+                    button.classList.add("answered");  
+                }  
+  
+                const firstUnanswered = getFirstUnanswered();  
+                const canVisit =  
+                    firstUnanswered === -1 || index <= firstUnanswered;  
+  
+                button.disabled = !canVisit || timeIsUp;  
+button.title = timeIsUp  
+    ? "Waktu sudah habis"  
+    : canVisit  
+        ? `Buka soal ${index + 1}`  
+        : "Jawab soal sebelumnya terlebih dahulu";  
+  
+                button.addEventListener("click", () => goToQuestion(index));  
+                buttons.appendChild(button);  
+            });  
+  
+            details.appendChild(buttons);  
+        }  
+  
+        navigation.appendChild(details);  
+    });  
+}  
+  
+/* ===================== TIMER ===================== */  
+  
+function formatTime(seconds) {  
+    const minutes = Math.floor(seconds / 60);  
+    const secs = seconds % 60;  
+  
+    return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;  
+}  
+  
+function updateTimerDisplay() {  
+    const timer = document.getElementById("timer");  
+  
+    timer.textContent = formatTime(remainingTime);  
+  
+    // Berkedip ketika waktu tersisa 10 menit atau kurang  
+    timer.classList.toggle("warning", remainingTime <= 600);  
+}  
+  
+function startTimer() {  
+    clearInterval(timerInterval);  
+    updateTimerDisplay();  
+  
+    // Jika waktu sudah habis, langsung kunci kuis.  
+    if (remainingTime <= 0) {  
+        remainingTime = 0;  
+        timeIsUp = true;  
+        updateTimerDisplay();  
+        renderQuestion();  
+        saveProgress();  
+  
+        showMessage(  
+            "Waktu Habis",  
+            "Waktu pengerjaan sudah habis. Silakan tekan tombol Selesai & Nilai.",  
+            "warning"  
+        );  
+  
+        return;  
+    }  
+  
+    timeIsUp = false;  
+  
+    timerInterval = setInterval(() => {  
+        if (quizFinished) {  
+            clearInterval(timerInterval);  
+            return;  
+        }  
+  
+        if (remainingTime > 0) {  
+            remainingTime--;  
+            updateTimerDisplay();  
+            saveProgress();  
+        }  
+  
+        if (remainingTime <= 0) {  
+            remainingTime = 0;  
+            timeIsUp = true;  
+  
+            clearInterval(timerInterval);  
+  
+            // Simpan kondisi waktu habis.  
+            updateTimerDisplay();  
+            renderQuestion();  
+            saveProgress();  
+  
+            showMessage(  
+                "Waktu Habis!",  
+                "Waktu pengerjaan sudah habis. Semua jawaban telah dikunci. Silakan tekan tombol Selesai & Nilai untuk melihat hasil ujian.",  
+                "warning"  
+            );  
+        }  
+    }, 1000);  
+}  
+  
+/* ===================== SIMPAN PROGRES ===================== */  
+  
+function saveProgress() {  
+    if (quizFinished) return;  
+  
+    const data = {  
+        currentQuestion,  
+        userAnswers,  
+        remainingTime  
+    };  
+  
+    try {  
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));  
+    } catch (error) {  
+        console.warn("Progres tidak dapat disimpan:", error);  
+    }  
+}  
+  
+function loadProgress() {  
+    try {  
+        const saved = localStorage.getItem(STORAGE_KEY);  
+        if (!saved) return false;  
+  
+        const data = JSON.parse(saved);  
+  
+        if (!Array.isArray(data.userAnswers) ||  
+            data.userAnswers.length !== quizData.length) {  
+            return false;  
+        }  
+  
+        userAnswers = data.userAnswers.map((answer, index) => {  
+            const optionCount = quizData[index].options.length;  
+  
+            return Number.isInteger(answer) &&  
+                answer >= 0 &&  
+                answer < optionCount  
+                ? answer  
+                : null;  
+        });  
+  
+        currentQuestion = Number.isInteger(data.currentQuestion)  
+            ? Math.max(0, Math.min(data.currentQuestion, quizData.length - 1))  
+            : 0;  
+  
+        remainingTime = Number.isFinite(data.remainingTime)  
+            ? Math.max(0, Math.min(data.remainingTime, TIMER_DURATION))  
+            : TIMER_DURATION;  
+  
+        return true;  
+    } catch (error) {  
+        console.warn("Progres tidak dapat dipulihkan:", error);  
+        return false;  
+    }  
+}  
+  
+/* ===================== NILAI DAN KELULUSAN ===================== */  
+  
+function calculateScore() {  
+    let correct = 0;  
+    let wrong = 0;  
+    let unanswered = 0;  
+  
+    quizData.forEach((question, index) => {  
+        if (userAnswers[index] === null) {  
+            unanswered++;  
+        } else if (userAnswers[index] === question.answer) {  
+            correct++;  
+        } else {  
+            wrong++;  
+        }  
+    });  
+  
+    // Total waktu yang digunakan  
+    const elapsedTime = TIMER_DURATION - remainingTime;  
+  
+    return {  
+        correct,  
+        wrong,  
+        unanswered,  
+        score: correct * POINTS_PER_QUESTION,  
+        passed: correct >= PASSING_SCORE,  
+        elapsedTime  
+    };  
+}  
+    
+function showMessage(title, text, icon) {  
+    if (window.Swal) {  
+        Swal.fire({  
+            title,  
+            text,  
+            icon,  
+            confirmButtonText: "Mengerti"  
+        });  
+    } else {  
+        alert(`${title}\n${text}`);  
+    }  
+}  
+    
+function confirmSubmit() {  
+    if (quizFinished || isFinishing) return;  
+    
+    const unanswered = userAnswers.filter(  
+        answer => answer === null  
+    ).length;  
+    
+    let confirmation;  
+    
+    if (timeIsUp) {  
+        confirmation = window.Swal  
+            ? Swal.fire({  
+                title: "Selesaikan Ujian?",  
+                text: `Waktu sudah habis. Masih ada ${unanswered} soal yang belum dijawab. Soal tersebut akan dihitung sebagai tidak dijawab. Lanjutkan?`,  
+                icon: "warning",  
+                showCancelButton: true,  
+                confirmButtonText: "Ya, Selesaikan",  
+                cancelButtonText: "Batal"  
+            })  
+            : Promise.resolve({  
+                isConfirmed: confirm(  
+                    `Waktu sudah habis. Ada ${unanswered} soal belum dijawab. Selesaikan ujian?`  
+                )  
+            });  
+    } else {  
+        const firstUnanswered = getFirstUnanswered();  
+        
+        if (firstUnanswered !== -1) {  
+            currentQuestion = firstUnanswered;  
+            renderQuestion();  
+            
+            showMessage(  
+                "Masih Ada Soal Kosong",  
+                `Silakan jawab soal nomor ${firstUnanswered + 1} terlebih dahulu.`,  
+                "warning"  
+            );  
+            
+            return;  
+        }  
+        
+        confirmation = window.Swal  
+            ? Swal.fire({  
+                title: "Selesaikan Ujian?",  
+                text: "Semua soal sudah dijawab. Apakah Anda ingin menyelesaikan ujian?",  
+                icon: "question",  
+                showCancelButton: true,  
+                confirmButtonText: "Ya, Selesaikan",  
+                cancelButtonText: "Periksa Kembali"  
+            })  
+            : Promise.resolve({  
+                isConfirmed: confirm(  
+                    "Semua soal sudah dijawab. Selesaikan ujian?"  
+                )  
+            });  
+    }  
+    
+    confirmation.then(result => {  
+        if (result.isConfirmed) {  
+            finishQuiz();  
+        }  
+    });  
+}  
+    
+    
+function finishQuiz() {
+    if (quizFinished || isFinishing) return;
+    
+    const firstUnanswered = getFirstUnanswered();
+    
+    if (firstUnanswered !== -1 && !timeIsUp) {
+        currentQuestion = firstUnanswered;
+        renderQuestion();
+        
+        showMessage(
+            "Masih Ada Soal Kosong",
+            `Silakan jawab soal nomor ${firstUnanswered + 1} terlebih dahulu.`,
+            "warning"
+        );
+        
+        return;
+    }
+    
+    isFinishing = true;
+    quizFinished = true;
+    
+    clearInterval(timerInterval);
+    
+    const result = calculateScore();
+
+    // Tampilkan halaman ulasan terlebih dahulu.
+    // Hasil ujian belum ditampilkan.
+    showRequiredReview(result);
+}
+    
+  
+function renderResult(result) {  
+    const resultArea = document.getElementById("resultArea");  
+  
+    const statusClass = result.passed  
+        ? "result-pass"  
+        : "result-fail";  
+  
+    const statusText = result.passed  
+        ? "SELAMAT, ANDA LULUS!"  
+        : "MAAF, ANDA BELUM LULUS";  
+  
+    // Konversi detik menjadi jam, menit, dan detik  
+    const hours = Math.floor(result.elapsedTime / 3600);  
+    const minutes = Math.floor((result.elapsedTime % 3600) / 60);  
+    const seconds = result.elapsedTime % 60;  
+  
+    let durationText = "";  
+  
+    if (hours > 0) {  
+        durationText += `${hours} jam `;  
+    }  
+  
+    durationText += `${minutes} menit ${seconds} detik`;  
+  
+    resultArea.innerHTML = `  
+        <div class="result">  
+            <h2 class="${statusClass}">${statusText}</h2>  
+  
+            <p>Nilai Anda:</p>  
+            <h2>${result.score} / ${quizData.length * POINTS_PER_QUESTION}</h2>  
+  
+            <p>Jawaban benar: <strong>${result.correct}</strong></p>  
+            <p>Jawaban salah: <strong>${result.wrong}</strong></p>  
+            <p>Tidak dijawab: <strong>${result.unanswered}</strong></p>  
+  
+            <hr>  
+  
+            <p>⏱️ <strong>Waktu pengerjaan:</strong></p>  
+            <h3>${durationText}</h3>  
+  
+            <p>Waktu yang disediakan: 80 menit</p>  
+            <p>Batas kelulusan: minimal  
+                <strong>${PASSING_SCORE} jawaban benar</strong>  
+                dari ${quizData.length} soal.  
+            </p>  
+  
+            <button class="btn-primary" onclick="showReview()">  
+                Lihat Pembahasan  
+            </button>  
+  
+            <button class="btn-secondary" onclick="restartQuiz()">  
+                Ulangi Ujian  
+            </button>  
+        </div>  
+    `;  
+}  
+  
+/* ===================== PEMBAHASAN ===================== */  
+  
+function showReview() {  
+    const resultArea = document.getElementById("resultArea");  
+    let html = '<h2 style="text-align:center">Pembahasan Jawaban</h2>';  
+  
+    quizData.forEach((question, index) => {  
+        const userAnswer = userAnswers[index];  
+        const correctAnswer = question.answer;  
+        const isCorrect = userAnswer === correctAnswer;  
+  
+        const userText = userAnswer === null  
+            ? "Tidak dijawab"  
+            : `${String.fromCharCode(65 + userAnswer)}. ${renderContent(question.options[userAnswer], "option-image")}`;  
+  
+        const correctText =  
+            `${String.fromCharCode(65 + correctAnswer)}. ${renderContent(question.options[correctAnswer], "option-image")}`;  
+  
+        html += `  
+            <div class="review-item">  
+                <h3>Soal ${index + 1} — ${escapeHTML(CATEGORY_NAMES[question.category] || CATEGORY_NAMES.moji_goi)}</h3>  
+                <div class="question">  
+    ${question.passage ? renderPassage(question.passage) : ""}
+${renderContent(question.question)}  
+    ${question.prompt ? `  
+        <div class="question-prompt">  
+            ${escapeHTML(question.prompt)}  
+        </div>  
+    ` : ""}  
+</div>  
+  
+                <div class="review-answer ${isCorrect ? "review-correct" : "review-incorrect"}">  
+                    <strong>Jawaban Anda:</strong><br>  
+                    ${userText}  
+                    <p>${isCorrect ? "Benar" : "Salah"}</p>  
+                </div>  
+  
+                <div class="review-answer review-correct">  
+                    <strong>Jawaban yang benar:</strong><br>  
+                    ${correctText}  
+                </div>  
+            </div>  
+        `;  
+    });  
+  
+    html += `  
+        <div style="text-align:center;margin-top:20px">  
+            <button class="btn-primary" onclick="backToResult()">Kembali ke Hasil</button>  
+            <button class="btn-secondary" onclick="restartQuiz()">Ulangi Ujian</button>  
+        </div>  
+    `;  
+  
+    resultArea.innerHTML = html;  
+    window.scrollTo({top: 0, behavior: "smooth"});  
+}  
+  
+function backToResult() {  
+    renderResult(calculateScore());  
+    window.scrollTo({top: 0, behavior: "smooth"});  
+}  
+  
+/* ===================== RESET ===================== */  
+  
+function confirmReset() {  
+    const confirmation = window.Swal  
+        ? Swal.fire({  
+            title: "Ulangi dari Awal?",  
+            text: "Semua jawaban tersimpan akan dihapus dan waktu kembali ke 80 menit.",  
+            icon: "warning",  
+            showCancelButton: true,  
+            confirmButtonText: "Ya, Ulangi",  
+            cancelButtonText: "Batal"  
+        })  
+        : Promise.resolve({  
+            isConfirmed: confirm("Hapus progres dan ulangi dari awal?")  
+        });  
+  
+    confirmation.then(result => {  
+        if (result.isConfirmed) restartQuiz();  
+    });  
+}  
+  
+function restartQuiz() {  
+    clearInterval(timerInterval);audioPlayCounts.clear();  
+  
+    try {  
+        localStorage.removeItem(STORAGE_KEY);resetAudioPlayCounts();  
+    } catch (error) {  
+        console.warn(error);  
+    }  
+  
+    currentQuestion = 0;  
+    userAnswers = new Array(quizData.length).fill(null);  
+    remainingTime = TIMER_DURATION;  
+    quizFinished = false;  
+    isFinishing = false;  
+    timeIsUp = false;  
+  
+    document.getElementById("quizArea").classList.remove("hidden");  
+    document.getElementById("resultArea").classList.add("hidden");  
+    document.getElementById("resultArea").innerHTML = "";  
+    document.getElementById("questionNavigation").open = true;  
+  
+    renderQuestion();  
+    startTimer();  
+  
+    window.scrollTo({top: 0, behavior: "smooth"});  
+}  
+  
+    
+/* ===================== ULASAN WAJIB ===================== */
+
+const REVIEW_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxeZBhYZjquO0haOVFN6TnOemd5b7dJYxbgC5lJu-Py1BCEks2Aqwf8WcNMuDpiVGQwCA/exec";
+
+let pendingQuizResult = null;
+let reviewToken = null;
+let reviewSending = false;
+
+function showRequiredReview(result) {
+    pendingQuizResult = result;
+    reviewToken = "review-" + Date.now() + "-" +
+        Math.random().toString(36).slice(2);
+
+    const resultArea = document.getElementById("resultArea");
+
+    document.getElementById("quizArea").classList.add("hidden");
+    resultArea.classList.remove("hidden");
+
+    resultArea.innerHTML = `
+        <div class="review-form-container">
+
+            <h2>⭐ Berikan Ulasan</h2>
+
+            <p>
+                Terima kasih sudah menyelesaikan Latihan Kuis JFT!
+                Sebelum melihat hasil ujian, silakan berikan ulasan
+                mengenai pengalaman kamu.
+            </p>
+
+            <form id="participantReview">
+
+                <label for="reviewName">
+                    Nama peserta <strong>*</strong>
+                </label>
+
+                <input
+                    type="text"
+                    id="reviewName"
+                    maxlength="80"
+                    required
+                    placeholder="Masukkan nama kamu"
+                >
+
+                <label>Rating <strong>*</strong></label>
+
+                <div class="review-stars">
+                    ${[1,2,3,4,5].map(n => `
+                        <button
+                            type="button"
+                            class="star-button"
+                            data-rating="${n}"
+                            aria-label="Rating ${n}">
+                            ★
+                        </button>
+                    `).join("")}
+                </div>
+
+                <input
+                    type="hidden"
+                    id="reviewRating"
+                    value="5"
+                >
+
+                <label for="reviewOpinion">
+                    Bagaimana pendapat kamu? <strong>*</strong>
+                </label>
+
+                <select id="reviewOpinion" required>
+                    <option value="">-- Pilih pendapat --</option>
+                    <option value="Sangat bagus">Sangat bagus</option>
+                    <option value="Bagus">Bagus</option>
+                    <option value="Cukup">Cukup</option>
+                    <option value="Masih ada kekurangan">
+                        Masih ada kekurangan
+                    </option>
+                </select>
+
+                <label for="reviewSuggestion">
+                    Kritik dan saran (opsional)
+                </label>
+
+                <textarea
+                    id="reviewSuggestion"
+                    maxlength="1000"
+                    rows="4"
+                    placeholder="Tuliskan kritik atau saran..."
+                ></textarea>
+
+                <p id="reviewStatus" role="status"></p>
+
+                <button
+                    type="submit"
+                    id="sendReviewBtn"
+                    class="btn-primary">
+                    Kirim Ulasan & Lihat Hasil
+                </button>
+
+            </form>
+
+            <p class="review-required-note">
+                * Ulasan wajib dikirim sebelum hasil ujian dapat dilihat.
+            </p>
+
+        </div>
+    `;
+
+    setupReviewForm();
+    window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+
+/* PILIH RATING BINTANG */
+
+function setupReviewForm() {
+    const stars = document.querySelectorAll(".star-button");
+    const ratingInput = document.getElementById("reviewRating");
+
+    function updateStars(rating) {
+        ratingInput.value = rating;
+
+        stars.forEach(star => {
+            const value = Number(star.dataset.rating);
+
+            star.classList.toggle("active", value <= rating);
+        });
+    }
+
+    stars.forEach(star => {
+        star.addEventListener("click", () => {
+            updateStars(Number(star.dataset.rating));
+        });
+    });
+
+    updateStars(5);
+
+    document.getElementById("participantReview")
+        .addEventListener("submit", submitParticipantReview);
+}
+
+
+/* KIRIM ULASAN */
+
+function submitParticipantReview(event) {
+    event.preventDefault();
+
+    if (reviewSending) return;
+
+    const name = document.getElementById("reviewName")
+        .value.trim();
+
+    const rating = document.getElementById("reviewRating")
+        .value;
+
+    const opinion = document.getElementById("reviewOpinion")
+        .value;
+
+    const suggestion = document.getElementById("reviewSuggestion")
+        .value.trim();
+
+    if (!name || !opinion || !rating) {
+        showMessage(
+            "Data Belum Lengkap",
+            "Silakan isi nama, rating, dan pendapat kamu.",
+            "warning"
+        );
+        return;
+    }
+
+    if (!REVIEW_SCRIPT_URL.startsWith("https://script.google.com/")) {
+        showMessage(
+            "URL Belum Diatur",
+            "Masukkan URL Web App Google Apps Script terlebih dahulu.",
+            "error"
+        );
+        return;
+    }
+
+    const form = document.getElementById("reviewForm");
+
+    form.action = REVIEW_SCRIPT_URL;
+
+    const values = {
+        name,
+        rating,
+        opinion,
+        suggestion,
+        score: pendingQuizResult.score,
+        token: reviewToken
+    };
+
+    Object.keys(values).forEach(key => {
+        form.elements[key].value = values[key];
+    });
+
+    reviewSending = true;
+
+    const button = document.getElementById("sendReviewBtn");
+    const status = document.getElementById("reviewStatus");
+
+    button.disabled = true;
+    button.textContent = "Mengirim ulasan...";
+    status.textContent = "Sedang mengirim ulasan. Mohon tunggu.";
+
+    form.submit();
+}
+
+
+
+/* ===================== TERIMA KONFIRMASI GOOGLE APPS SCRIPT ===================== */
+
+window.addEventListener("message", function(event) {
+
+    console.log("Pesan diterima:", event.data);
+
+    let data = event.data;
+
+    // Jika pesan diterima dalam bentuk teks JSON, ubah menjadi object
+    if (typeof data === "string") {
+        try {
+            data = JSON.parse(data);
+        } catch (error) {
+            return;
+        }
+    }
+
+    // Pastikan token sesuai dengan pengiriman ulasan saat ini
+    if (!data || data.token !== reviewToken) {
+        console.log("Token tidak cocok:", data);
+        return;
+    }
+
+    const button = document.getElementById("sendReviewBtn");
+    const status = document.getElementById("reviewStatus");
+
+    if (data.status === "success") {
+
+        console.log("Ulasan berhasil disimpan.");
+
+        reviewSending = false;
+
+        try {
+            localStorage.removeItem(STORAGE_KEY);
+        } catch (error) {
+            console.warn(error);
+        }
+
+        // Tampilkan halaman hasil kuis
+        renderResult(pendingQuizResult);
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    } else if (data.status === "error") {
+
+        console.log("Gagal menyimpan ulasan:", data.message);
+
+        reviewSending = false;
+
+        if (button) {
+            button.disabled = false;
+            button.textContent = "Coba Kirim Ulang";
+        }
+
+        if (status) {
+            status.textContent =
+                "Ulasan belum berhasil disimpan. " +
+                (data.message || "Silakan coba lagi.");
+        }
+    }
+
+});
+/* ===================== MULAI KUIS ===================== */  
+  
+function initializeQuiz() {  
+    const restored = loadProgress();  
+  
+    renderQuestion();  
+    startTimer();  
+  
+    if (restored && window.Swal) {  
+        Swal.fire({  
+            title: "Progres Dipulihkan",  
+            text: "Jawaban dan sisa waktu dari sesi sebelumnya berhasil dimuat.",  
+            icon: "info",  
+            confirmButtonText: "Lanjutkan"  
+        });  
+    }  
+}  
+  
+initializeQuiz();  
+</script>  </body>  
+</html>
